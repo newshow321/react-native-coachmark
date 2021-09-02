@@ -1,21 +1,15 @@
-import React from 'react';
-import Coachmark from './Coachmark';
-
-type Coachmarks = Array<React.RefObject<Coachmark> | Coachmark>;
 export default class CoachmarkComposer {
-  coachmarks: Coachmarks;
-  constructor(coachmarks: Coachmarks) {
+  constructor(coachmarks) {
     this.coachmarks = coachmarks;
   }
-
   show() {
     return this.coachmarks.reduce((acc, coachmark) => {
       return acc.then(() => {
-        const curr = coachmark as React.RefObject<Coachmark>;
+        const curr = coachmark;
         if (curr.current && curr.current.show) {
           return curr.current.show();
         }
-        return (coachmark as Coachmark).show();
+        return coachmark.show();
       });
     }, Promise.resolve());
   }
